@@ -21,10 +21,10 @@ public class SreenmatchApplication  implements CommandLineRunner {
 		String consultaSerie = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=6585022c");
 
 		ConverteDados converteDados = new ConverteDados();
-		DadosSerie serieConvertida = converteDados.obterDados(consultaSerie, DadosSerie.class);
+		DadosSerie serieConvertida = converteDados.converteDados(consultaSerie, DadosSerie.class);
 		System.out.println(serieConvertida);
 
 		String consultaEpisodio = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=6585022c");
-		DadosEpisodio episodioConvertido = converteDados.obterDados(consultaEpisodio, DadosEpisodio.class);
+		DadosEpisodio episodioConvertido = converteDados.converteDados(consultaEpisodio, DadosEpisodio.class);
 	}
 }
