@@ -29,12 +29,15 @@ public class SreenmatchApplication  implements CommandLineRunner {
 		DadosEpisodio episodioConvertido = converteDados.converteDados(consultaEpisodio, DadosEpisodio.class);
 		System.out.println(episodioConvertido);
 
-		String consultaTemporada = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&apikey=6585022c");
-		DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporada, DadosTemporada.class);
-		System.out.println(temporadaConvertida);
+		for(int i = 1; i <= serieConvertida.Totaltemporadas(); i++) { // itera e consulta as informações de todas as temporadas
+			String consultaTemporada = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season="+i+"&apikey=6585022c");
+			DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporada, DadosTemporada.class);
 
-		for(DadosEpisodio episodio: temporadaConvertida.listaEpisodios()) {
-			System.out.println(episodio.titulo());
+			System.out.println("------------------------------------------------------");
+			System.out.println("Episódios da temporada " + temporadaConvertida.numero());
+			for(DadosEpisodio episodio: temporadaConvertida.listaEpisodios()) { // itera sobre os episódios da temporada sendo iterada atualmente
+				System.out.println(episodio.titulo());
+			}
 		}
 	}
 }
