@@ -9,6 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootApplication
 public class SreenmatchApplication  implements CommandLineRunner {
 
@@ -29,15 +32,22 @@ public class SreenmatchApplication  implements CommandLineRunner {
 		DadosEpisodio episodioConvertido = converteDados.converteDados(consultaEpisodio, DadosEpisodio.class);
 		System.out.println(episodioConvertido);
 
+		List<DadosTemporada> listaDeTemporadas = new ArrayList<>();
+
 		for(int i = 1; i <= serieConvertida.Totaltemporadas(); i++) { // itera e consulta as informações de todas as temporadas
 			String consultaTemporada = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season="+i+"&apikey=6585022c");
 			DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporada, DadosTemporada.class);
+			listaDeTemporadas.add(temporadaConvertida);
 
-			System.out.println("------------------------------------------------------");
-			System.out.println("Episódios da temporada " + temporadaConvertida.numero());
-			for(DadosEpisodio episodio: temporadaConvertida.listaEpisodios()) { // itera sobre os episódios da temporada sendo iterada atualmente
-				System.out.println(episodio.titulo());
-			}
+//			System.out.println("------------------------------------------------------");
+//			System.out.println("Episódios da temporada " + temporadaConvertida.numero());
+//			for(DadosEpisodio episodio: temporadaConvertida.listaEpisodios()) { // itera sobre os episódios da temporada sendo iterada atualmente
+//				System.out.println(episodio.titulo());
+//			}
+		}
+
+		for(DadosTemporada temporada: listaDeTemporadas) {
+			System.out.println(temporada);
 		}
 	}
 }
