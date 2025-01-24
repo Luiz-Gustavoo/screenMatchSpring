@@ -24,18 +24,19 @@ public class SreenmatchApplication  implements CommandLineRunner {
 		ConsumirAPI consumirAPI = new ConsumirAPI();
 		ConverteDados converteDados = new ConverteDados();
 
-		String consultaSerie = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=6585022c");
+		String consultaSerie = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=7589c63");
 		DadosSerie serieConvertida = converteDados.converteDados(consultaSerie, DadosSerie.class);
 		System.out.println(serieConvertida);
 
-		String consultaEpisodio = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=6585022c");
+		String consultaEpisodio = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=7589c63");
 		DadosEpisodio episodioConvertido = converteDados.converteDados(consultaEpisodio, DadosEpisodio.class);
 		System.out.println(episodioConvertido);
 
 		List<DadosTemporada> listaDeTemporadas = new ArrayList<>();
 
 		for (int i = 1; i <= serieConvertida.Totaltemporadas(); i++) { // itera e consulta as informações de todas as temporadas
-			String consultaTemporada = consumirAPI.obterDados("https://www.omdbapi.com/?t=gilmore+girls&season=" + i + "&apikey=6585022c");
+			String consultaTemporada = consumirAPI.obterDados("https://omdbapi.com/?t=gilmore+girls&season="+i+"&apikey=7589c63");
+
 			DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporada, DadosTemporada.class);
 			listaDeTemporadas.add(temporadaConvertida);
 
