@@ -2,9 +2,12 @@ package br.com.alura.sreenmatch.principal;
 
 
 import br.com.alura.sreenmatch.model.DadosSerie;
+import br.com.alura.sreenmatch.model.DadosTemporada;
 import br.com.alura.sreenmatch.service.ConsumirAPI;
 import br.com.alura.sreenmatch.service.ConverteDados;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
@@ -15,11 +18,21 @@ public class Principal {
     private ConverteDados converteDados = new ConverteDados();
 
     public void exibeMenu(){
-        System.out.println("Digite o nome da série");
+
+
+        System.out.println("Digite o nome da série: ");
         String nomeSerie = leitor.nextLine();
 
         String consultaSerie = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
         DadosSerie serieConvertida = converteDados.converteDados(consultaSerie, DadosSerie.class);
         System.out.println(serieConvertida);
+
+        List<DadosTemporada> listaTemporadas = new ArrayList<>();
+
+        for(int i = 1; i <= serieConvertida.Totaltemporadas(); i++){
+            String consultaTemporadas = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") +"&season=" +i+ API_KEY);
+            DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
+            System.out.println(temporadaConvertida.numero());
+        }
     }
 }
