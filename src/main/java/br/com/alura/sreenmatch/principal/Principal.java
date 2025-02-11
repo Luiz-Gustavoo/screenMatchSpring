@@ -1,6 +1,7 @@
 package br.com.alura.sreenmatch.principal;
 
 
+import br.com.alura.sreenmatch.model.DadosEpisodio;
 import br.com.alura.sreenmatch.model.DadosSerie;
 import br.com.alura.sreenmatch.model.DadosTemporada;
 import br.com.alura.sreenmatch.service.ConsumirAPI;
@@ -32,7 +33,16 @@ public class Principal {
         for(int i = 1; i <= serieConvertida.Totaltemporadas(); i++){
             String consultaTemporadas = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") +"&season=" +i+ API_KEY);
             DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
-            System.out.println(temporadaConvertida.numero());
+            listaTemporadas.add(temporadaConvertida);
+
+        }
+
+        for (DadosTemporada temporada: listaTemporadas) {
+            System.out.println("-------------------------------------------------------");
+            System.out.println("Episódios da temporada: " + temporada.numero());
+            for(DadosEpisodio episodio: temporada.listaEpisodios()) {
+                System.out.println(episodio.titulo());
+            }
         }
     }
 }
