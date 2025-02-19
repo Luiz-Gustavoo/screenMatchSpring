@@ -44,5 +44,14 @@ public class Principal {
                 System.out.println(episodio.titulo());
             }
         }
+
+        for(int i = 0; i < serieConvertida.Totaltemporadas(); i++) {
+            List<DadosEpisodio> listaEpisodios = listaTemporadas.get(i).listaEpisodios();
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Episódios da temporada: " + listaTemporadas.get(i).numero());
+            for (int j = 0; j < listaEpisodios.size(); j++) {
+                System.out.println(listaEpisodios.get(j).titulo());
+            }
+        }
     }
 }
