@@ -55,7 +55,9 @@ public class Principal {
 //        }
 
 
-        listaTemporadas.forEach(temporada -> temporada.listaEpisodios().forEach(episodio -> System.out.println(episodio.titulo())));
+        listaTemporadas.forEach(temporada ->
+                temporada.listaEpisodios().forEach(episodio ->
+                        System.out.println("Temporada: " + temporada.numero() + " Episódio: " + episodio.titulo())));
 
     }
 }
