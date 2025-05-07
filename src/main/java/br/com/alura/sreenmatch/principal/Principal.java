@@ -34,6 +34,7 @@ public class Principal {
             String consultaTemporadas = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") +"&season=" +i+ API_KEY);
             DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
             listaTemporadas.add(temporadaConvertida);
+            System.out.println("teste");
 
         }
 
