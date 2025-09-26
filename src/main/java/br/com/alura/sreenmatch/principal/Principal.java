@@ -19,39 +19,43 @@ public class Principal {
     private final String API_KEY = "&apikey=7589c63";
     private ConsumirAPI consumirAPI = new ConsumirAPI();
     private ConverteDados converteDados = new ConverteDados();
+    private List<DadosSerie> listaSeries = new ArrayList<>();
 
     public void exibeMenu() {
+        var opcao = 1;
+        while (opcao != 0) {
+            var menu = """
+                    \n
+                    1 - Buscar séries
+                    2 - Buscar episódios
+                    
+                    0 - sair
+                    """;
+            System.out.println(menu);
+            opcao = leitor.nextInt();
+            leitor.nextLine();
 
-        var menu = """
-                1 - Buscar séries
-                2 - Buscar episódios
-                
-                0 - sair
-                """;
-        System.out.println(menu);
-        var opcao = leitor.nextInt();
-        leitor.nextLine();
-
-        switch (opcao) {
-            case 1:
-                buscarSerieWeb();
-                break;
-            case 2:
-                buscarEpisodiosPorSerie();
-                break;
-            case 0:
-                System.out.println("finalizando...");
-                break;
-            default:
-                System.out.println("Opção inválida");
+            switch (opcao) {
+                case 1:
+                    buscarSerieWeb();
+                    break;
+                case 2:
+                    buscarEpisodiosPorSerie();
+                    break;
+                case 0:
+                    System.out.println("finalizando...");
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+            }
         }
     }
-        public void buscarSerieWeb() {
+        public void buscarSerieWeb () {
             DadosSerie serie = buscarSerie();
             System.out.println(serie);
         }
 
-        public DadosSerie buscarSerie() {
+        public DadosSerie buscarSerie () {
             System.out.println("Digite o nome da série: ");
             String nomeSerie = leitor.nextLine();
 
@@ -60,16 +64,16 @@ public class Principal {
             return serieConvertida;
         }
 
-        public void buscarEpisodiosPorSerie() {
-        List<DadosTemporada> listaTemporadas = new ArrayList<>();
-        DadosSerie serie = buscarSerie();
+        public void buscarEpisodiosPorSerie () {
+            List<DadosTemporada> listaTemporadas = new ArrayList<>();
+            DadosSerie serie = buscarSerie();
 
-        for(int i = 1; i < serie.Totaltemporadas(); i++) {
-            String consultaTemporadas = consumirAPI.obterDados(ENDERECO + serie.titulo().replace(" ", "+") + "&Season="+i+API_KEY);
-             DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
-             listaTemporadas.add(temporadaConvertida);
-        }
-        listaTemporadas.forEach(System.out::println);
+            for (int i = 1; i < serie.Totaltemporadas(); i++) {
+                String consultaTemporadas = consumirAPI.obterDados(ENDERECO + serie.titulo().replace(" ", "+") + "&Season=" + i + API_KEY);
+                DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
+                listaTemporadas.add(temporadaConvertida);
+            }
+            listaTemporadas.forEach(System.out::println);
         }
     }
 
