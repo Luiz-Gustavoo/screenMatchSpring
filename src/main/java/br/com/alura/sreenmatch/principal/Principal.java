@@ -4,12 +4,14 @@ package br.com.alura.sreenmatch.principal;
 import br.com.alura.sreenmatch.model.DadosEpisodio;
 import br.com.alura.sreenmatch.model.DadosSerie;
 import br.com.alura.sreenmatch.model.DadosTemporada;
+import br.com.alura.sreenmatch.model.Episodio;
 import br.com.alura.sreenmatch.service.ConsumirAPI;
 import br.com.alura.sreenmatch.service.ConverteDados;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner leitor = new Scanner(System.in);
@@ -18,47 +20,56 @@ public class Principal {
     private ConsumirAPI consumirAPI = new ConsumirAPI();
     private ConverteDados converteDados = new ConverteDados();
 
-    public void exibeMenu(){
+    public void exibeMenu() {
 
+        var menu = """
+                1 - Buscar séries
+                2 - Buscar episódios
+                
+                0 - sair
+                """;
+        System.out.println(menu);
+        var opcao = leitor.nextInt();
+        leitor.nextLine();
 
-        System.out.println("Digite o nome da série: ");
-        String nomeSerie = leitor.nextLine();
-
-        String consultaSerie = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
-        DadosSerie serieConvertida = converteDados.converteDados(consultaSerie, DadosSerie.class);
-        System.out.println(serieConvertida);
-
-        List<DadosTemporada> listaTemporadas = new ArrayList<>();
-
-        for(int i = 1; i <= serieConvertida.Totaltemporadas(); i++){
-            String consultaTemporadas = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") +"&season=" +i+ API_KEY);
-            DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
-            listaTemporadas.add(temporadaConvertida);
-            System.out.println("teste");
-
+        switch (opcao) {
+            case 1:
+                buscarSerieWeb();
+                break;
+            case 2:
+                buscarEpisodiosPorSerie();
+                break;
+            case 0:
+                System.out.println("finalizando...");
+                break;
+            default:
+                System.out.println("Opção inválida");
+        }
+    }
+        public void buscarSerieWeb() {
+            DadosSerie serie = buscarSerie();
+            System.out.println(serie);
         }
 
-//        for (DadosTemporada temporada: listaTemporadas) {
-//            System.out.println("-------------------------------------------------------");
-//            System.out.println("Episódios da temporada: " + temporada.numero());
-//            for(DadosEpisodio episodio: temporada.listaEpisodios()) {
-//                System.out.println(episodio.titulo());
-//            }
-//        }
-//
-//        for(int i = 0; i < serieConvertida.Totaltemporadas(); i++) {
-//            List<DadosEpisodio> listaEpisodios = listaTemporadas.get(i).listaEpisodios();
-//            System.out.println("--------------------------------------------------------");
-//            System.out.println("Episódios da temporada: " + listaTemporadas.get(i).numero());
-//            for (int j = 0; j < listaEpisodios.size(); j++) {
-//                System.out.println(listaEpisodios.get(j).titulo());
-//            }
-//        }
+        public DadosSerie buscarSerie() {
+            System.out.println("Digite o nome da série: ");
+            String nomeSerie = leitor.nextLine();
 
+            String consultaSerie = consumirAPI.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
+            DadosSerie serieConvertida = converteDados.converteDados(consultaSerie, DadosSerie.class);
+            return serieConvertida;
+        }
 
-        listaTemporadas.forEach(temporada ->
-                temporada.listaEpisodios().forEach(episodio ->
-                        System.out.println("Temporada: " + temporada.numero() + " Episódio: " + episodio.titulo())));
+        public void buscarEpisodiosPorSerie() {
+        List<DadosTemporada> listaTemporadas = new ArrayList<>();
+        DadosSerie serie = buscarSerie();
 
+        for(int i = 1; i < serie.Totaltemporadas(); i++) {
+            String consultaTemporadas = consumirAPI.obterDados(ENDERECO + serie.titulo().replace(" ", "+") + "&Season="+i+API_KEY);
+             DadosTemporada temporadaConvertida = converteDados.converteDados(consultaTemporadas, DadosTemporada.class);
+             listaTemporadas.add(temporadaConvertida);
+        }
+        listaTemporadas.forEach(System.out::println);
+        }
     }
-}
+
