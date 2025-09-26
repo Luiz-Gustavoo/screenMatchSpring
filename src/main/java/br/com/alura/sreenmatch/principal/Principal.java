@@ -28,6 +28,7 @@ public class Principal {
                     \n
                     1 - Buscar séries
                     2 - Buscar episódios
+                    3 - Listar séries buscadas
                     
                     0 - sair
                     """;
@@ -42,6 +43,9 @@ public class Principal {
                 case 2:
                     buscarEpisodiosPorSerie();
                     break;
+                case 3:
+                    listarSeriesBuscadas();
+                    break;
                 case 0:
                     System.out.println("finalizando...");
                     break;
@@ -52,7 +56,7 @@ public class Principal {
     }
         public void buscarSerieWeb () {
             DadosSerie serie = buscarSerie();
-            System.out.println(serie);
+            listaSeries.add(serie);
         }
 
         public DadosSerie buscarSerie () {
@@ -74,6 +78,13 @@ public class Principal {
                 listaTemporadas.add(temporadaConvertida);
             }
             listaTemporadas.forEach(System.out::println);
+        }
+
+        public void listarSeriesBuscadas(){
+            if(listaSeries.isEmpty()) {
+                System.out.println("Não há séries na lista. Busque uma série para adicionar");
+            }
+            listaSeries.forEach(System.out::println);
         }
     }
 
