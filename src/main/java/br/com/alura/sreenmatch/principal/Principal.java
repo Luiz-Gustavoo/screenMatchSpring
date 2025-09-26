@@ -54,12 +54,12 @@ public class Principal {
             }
         }
     }
-        public void buscarSerieWeb () {
+        private void buscarSerieWeb () {
             DadosSerie serie = buscarSerie();
             listaSeries.add(serie);
         }
 
-        public DadosSerie buscarSerie () {
+    private DadosSerie buscarSerie () {
             System.out.println("Digite o nome da série: ");
             String nomeSerie = leitor.nextLine();
 
@@ -68,7 +68,7 @@ public class Principal {
             return serieConvertida;
         }
 
-        public void buscarEpisodiosPorSerie () {
+    private void buscarEpisodiosPorSerie () {
             List<DadosTemporada> listaTemporadas = new ArrayList<>();
             DadosSerie serie = buscarSerie();
 
@@ -80,7 +80,7 @@ public class Principal {
             listaTemporadas.forEach(System.out::println);
         }
 
-        public void listarSeriesBuscadas(){
+    private void listarSeriesBuscadas(){
             if(listaSeries.isEmpty()) {
                 System.out.println("Não há séries na lista. Busque uma série para adicionar");
             }
