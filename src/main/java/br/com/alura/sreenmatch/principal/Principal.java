@@ -1,10 +1,7 @@
 package br.com.alura.sreenmatch.principal;
 
 
-import br.com.alura.sreenmatch.model.DadosEpisodio;
-import br.com.alura.sreenmatch.model.DadosSerie;
-import br.com.alura.sreenmatch.model.DadosTemporada;
-import br.com.alura.sreenmatch.model.Episodio;
+import br.com.alura.sreenmatch.model.*;
 import br.com.alura.sreenmatch.service.ConsumirAPI;
 import br.com.alura.sreenmatch.service.ConverteDados;
 
@@ -81,10 +78,15 @@ public class Principal {
         }
 
     private void listarSeriesBuscadas(){
-            if(listaSeries.isEmpty()) {
+        List<Serie> series = new ArrayList<>();
+        series = listaSeries.stream()
+                .map(serie -> new Serie(serie))
+                .collect(Collectors.toList());
+
+        if(series.isEmpty()) {
                 System.out.println("Não há séries na lista. Busque uma série para adicionar");
             }
-            listaSeries.forEach(System.out::println);
+            series.forEach(System.out::println);
         }
     }
 
