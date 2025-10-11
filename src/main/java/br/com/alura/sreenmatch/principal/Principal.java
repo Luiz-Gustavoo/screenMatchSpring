@@ -2,8 +2,10 @@ package br.com.alura.sreenmatch.principal;
 
 
 import br.com.alura.sreenmatch.model.*;
+import br.com.alura.sreenmatch.service.ConsultaMyMemory;
 import br.com.alura.sreenmatch.service.ConsumirAPI;
 import br.com.alura.sreenmatch.service.ConverteDados;
+import br.com.alura.sreenmatch.service.DadosTraducao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,7 @@ public class Principal {
     private List<DadosSerie> listaSeries = new ArrayList<>();
 
     public void exibeMenu() {
+
         var opcao = 1;
         while (opcao != 0) {
             var menu = """
